@@ -1,8 +1,3 @@
-mod utils;
-mod day1;
-mod day2;
-mod day3;
-
 use std::io::stdin;
 
 fn get_stripped_user_input(user_input: &mut String) {
@@ -15,9 +10,9 @@ fn main() {
     println!("Enter the number of the day you would like to run");
     get_stripped_user_input(&mut user_input);
     match user_input.as_str() {
-        "1" => day1::compute_solution(),
-        "2" => day2::compute_solution(),
-        "3" => day3::compute_solution(),
+        "1" => lib::day1::compute_solution(),
+        "2" => lib::day2::compute_solution(),
+        "3" => lib::day3::compute_solution(),
         _ => println!("User entered invalid day"),
     }
 }
