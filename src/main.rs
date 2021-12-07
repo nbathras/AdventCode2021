@@ -1,6 +1,7 @@
 mod utils;
 mod day1;
 mod day2;
+mod day3;
 
 use std::io::stdin;
 
@@ -16,6 +17,7 @@ fn main() {
     match user_input.as_str() {
         "1" => day1::compute_solution(),
         "2" => day2::compute_solution(),
+        "3" => day3::compute_solution(),
         _ => println!("User entered invalid day"),
     }
 }
