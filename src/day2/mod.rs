@@ -1,19 +1,7 @@
-use std::{
-    fs::File,
-    io::{prelude::*, BufReader},
-    path::Path
-};
+use crate::utils::get_lines_from_file;
 
 const INPUT_EXAMPLE_FILE_PATH: &str = "src/day2/inputExample.txt";
 const INPUT_TEST_FILE_PATH: &str = "src/day2/input.txt";
-
-fn get_lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
-    let file = File::open(filename).expect("no such file");
-    let buf = BufReader::new(file);
-    buf.lines()
-        .map(|l| l.expect("Could not parse line"))
-        .collect()
-}
 
 fn part1(lines: &Vec<String>) -> i32 {
     let mut depth = 0;
