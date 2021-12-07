@@ -4,8 +4,8 @@ use std::{
     path::Path
 };
 
-const INPUT_EXAMPLE_FILE_PATH: &str = "src/day1/inputExample.txt";
-const INPUT_TEST_FILE_PATH: &str = "src/day1/input.txt";
+const INPUT_EXAMPLE_FILE_PATH: &str = "src/day2/inputExample.txt";
+const INPUT_TEST_FILE_PATH: &str = "src/day2/input.txt";
 
 fn get_lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
     let file = File::open(filename).expect("no such file");
@@ -16,43 +16,49 @@ fn get_lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
 }
 
 fn part1(lines: &Vec<String>) -> i32 {
-    let mut previous_depth = 0;
-    let mut increase_counter = 0;
+    let mut depth = 0;
+    let mut position = 0;
 
     for line in lines {
-        let new_depth = line.parse::<i32>().expect("Could not convert line to i32");
+        let split: Vec<&str> = line.split(' ').collect();
+        let direction = String::from(split[0]);
+        let distance = split[1].parse::<i32>().expect("Could not convert split[1] to i32");
 
-        if new_depth > previous_depth {
-            increase_counter += 1;
+        match direction.as_str() {
+            "forward" => position += distance,
+            "up" => depth -= distance,
+            "down" => depth += distance,
+            _ => println!("Direction does not match known directions"),
         }
-
-        previous_depth = new_depth;
     }
 
-    increase_counter - 1
+    depth * position
 }
 
 fn part2(lines: &Vec<String>) -> i32 {
-    let mut previous_depth = 0;
-    let mut increase_counter = 0;
-    
-    for i in 0..lines.len() {
-        if i + 2 >= lines.len() { break; }
+    let mut depth = 0;
+    let mut aim = 0;
+    let mut position = 0;
 
-        let new_depth1 = lines[i].parse::<i32>().expect("Could not convert line to i32");
-        let new_depth2 = lines[i+1].parse::<i32>().expect("Could not convert line to i32");
-        let new_depth3 = lines[i+2].parse::<i32>().expect("Could not convert line to i32");
-        let new_depth = new_depth1 + new_depth2 + new_depth3;
+    for line in lines {
+        let split: Vec<&str> = line.split(' ').collect();
+        let direction = String::from(split[0]);
+        let distance = split[1].parse::<i32>().expect("Could not convert split[1] to i32");
 
-        if new_depth > previous_depth {
-            increase_counter += 1;
+        match direction.as_str() {
+            "forward" => {
+                position += distance;
+                depth += aim * distance;
+            },
+            "up" => aim -= distance,
+            "down" => aim += distance,
+            _ => println!("Direction does not match known directions"),
         }
-
-        previous_depth = new_depth;
     }
 
-    increase_counter - 1
+    depth * position
 }
+
 
 fn compute_solutions(lines: Vec<String>) {
     println!("Part1: {:?}", part1(&lines));
@@ -78,7 +84,7 @@ mod tests {
         let lines = get_lines_from_file(INPUT_EXAMPLE_FILE_PATH);
         let answer = part1(&lines);
 
-        assert_eq!(answer, 7);
+        assert_eq!(answer, 150);
     }
 
     #[test]
@@ -86,7 +92,7 @@ mod tests {
         let lines = get_lines_from_file(INPUT_TEST_FILE_PATH);
         let answer = part1(&lines);
 
-        assert_eq!(answer, 1766);
+        assert_eq!(answer, 1660158);
     }
 
     #[test]
@@ -94,7 +100,7 @@ mod tests {
         let lines = get_lines_from_file(INPUT_EXAMPLE_FILE_PATH);
         let answer = part2(&lines);
 
-        assert_eq!(answer, 5);
+        assert_eq!(answer, 900);
     }
 
     #[test]
@@ -102,6 +108,6 @@ mod tests {
         let lines = get_lines_from_file(INPUT_TEST_FILE_PATH);
         let answer = part2(&lines);
 
-        assert_eq!(answer, 1797);
+        assert_eq!(answer, 1604592846);
     }
 }

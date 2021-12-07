@@ -1,4 +1,5 @@
 mod day1;
+mod day2;
 
 use std::io::stdin;
 
@@ -13,6 +14,7 @@ fn main() {
     get_stripped_user_input(&mut user_input);
     match user_input.as_str() {
         "1" => day1::compute_solution(),
+        "2" => day2::compute_solution(),
         _ => println!("User entered invalid day"),
     }
 }
