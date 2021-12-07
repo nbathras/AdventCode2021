@@ -67,3 +67,40 @@ pub fn compute_solution() {
     let lines = get_lines_from_file("src/day1/input.txt");
     compute_solutions(lines);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn part1_example_input() {
+        let lines = get_lines_from_file("src/day1/inputExample.txt");
+        let answer = part1(&lines);
+
+        assert_eq!(answer, 7);
+    }
+
+    #[test]
+    fn part1_input() {
+        let lines = get_lines_from_file("src/day1/input.txt");
+        let answer = part1(&lines);
+
+        assert_eq!(answer, 1766);
+    }
+
+    #[test]
+    fn part2_example_input() {
+        let lines = get_lines_from_file("src/day1/inputExample.txt");
+        let answer = part2(&lines);
+
+        assert_eq!(answer, 5);
+    }
+
+    #[test]
+    fn part2_input() {
+        let lines = get_lines_from_file("src/day1/input.txt");
+        let answer = part2(&lines);
+
+        assert_eq!(answer, 1797);
+    }
+}
