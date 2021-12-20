@@ -18,7 +18,7 @@ struct LineSegment {
 }
 
 impl LineSegment {
-    fn get_line(&self) -> Vec<Point> {
+    fn get_line(&self, check_diagonals: bool) -> Vec<Point> {
         let mut points: Vec<Point> = Vec::new();
 
         // Vertical
@@ -43,6 +43,21 @@ impl LineSegment {
                     x: self.p1.x + direction * i,
                     y: self.p1.y,
                 });
+            }
+        // Diagnoals
+        } else if check_diagonals {
+            let distnace_x: i32 = self.p2.x - self.p1.x;
+            let distance_y: i32 = self.p2.y - self.p1.y;
+            if distnace_x.abs() != distance_y.abs() { println!("ERROR: distance_x and distance_y should match: {:?} != {:?}", distnace_x, distance_y); }
+
+            let direction_x: i32 = distnace_x / distnace_x.abs();
+            let direction_y: i32 = distance_y / distance_y.abs();
+
+            for i in 0..distnace_x.abs() + 1 {
+                points.push(Point {
+                    x: self.p1.x + direction_x * i,
+                    y: self.p1.y + direction_y * i,
+                })
             }
         }
 
@@ -69,20 +84,24 @@ fn build_line_segment(line: &String) -> LineSegment {
     }
 }
 
-fn part1(lines: &Vec<String>) -> i32 {
+fn get_map(lines: &Vec<String>, check_diagonals: bool) -> HashMap<Point, i32> {
     let mut map: HashMap<Point, i32> = HashMap::new();
 
     for line in lines {
         let line_segment = build_line_segment(line);
-        for point in line_segment.get_line() {
+        for point in line_segment.get_line(check_diagonals) {
             *map.entry(point).or_insert_with(|| 0) += 1;
         }
     }
-    
+
+    map
+}
+
+fn count_danger_points(map: &HashMap<Point, i32>) -> i32 {
     let mut danger_point_count = 0;
 
     for (_, v ) in map.into_iter() {
-        if v > 1 {
+        if *v > 1 {
             danger_point_count += 1;
         }
     }
@@ -90,9 +109,14 @@ fn part1(lines: &Vec<String>) -> i32 {
     danger_point_count
 }
 
-fn part2(_: &Vec<String>) -> i32 {
-    // ToDo: Impleet
-    -1 
+fn part1(lines: &Vec<String>) -> i32 {
+    let map: HashMap<Point, i32> = get_map(lines, false);
+    count_danger_points(&map)
+}
+
+fn part2(lines: &Vec<String>) -> i32 {
+    let map: HashMap<Point, i32> = get_map(lines, true);
+    count_danger_points(&map)
 }
 
 fn compute_solutions(lines: Vec<String>) {
@@ -127,7 +151,7 @@ mod tests {
         let lines = get_lines_from_file(INPUT_TEST_FILE_PATH);
         let answer = part1(&lines);
 
-        assert_eq!(answer, answer);
+        assert_eq!(answer, 6397);
     }
 
     #[test]
@@ -135,7 +159,7 @@ mod tests {
         let lines = get_lines_from_file(INPUT_EXAMPLE_FILE_PATH);
         let answer = part2(&lines);
 
-        assert_eq!(answer, answer);
+        assert_eq!(answer, 12);
     }
 
     #[test]
@@ -143,6 +167,6 @@ mod tests {
         let lines = get_lines_from_file(INPUT_TEST_FILE_PATH);
         let answer = part2(&lines);
 
-        assert_eq!(answer, answer);
+        assert_eq!(answer, 22335);
     }
 }
