@@ -13,6 +13,8 @@ fn main() {
         "1" => lib::day1::compute_solution(),
         "2" => lib::day2::compute_solution(),
         "3" => lib::day3::compute_solution(),
+        "4" => lib::day4::compute_solution(),
+        "5" => lib::day5::compute_solution(),
         _ => println!("User entered invalid day"),
     }
 }
