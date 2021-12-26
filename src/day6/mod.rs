@@ -83,13 +83,6 @@ impl PopulationEntry {
     }
 }
 
-fn part1_explicit_days(lines: &Vec<String>, number_of_days: i64) -> i64 {
-    let mut population = Population::new(&lines[0]);
-    population.simulate(number_of_days);
-
-    population.get_total_population()
-}
-
 fn part1(lines: &Vec<String>) -> i64 {
     let mut population = Population::new(&lines[0]);
     population.simulate(80);
@@ -123,14 +116,20 @@ pub fn compute_solution() {
 mod tests {
     use super::*;
 
+    fn part1_explicit_days(lines: &Vec<String>, number_of_days: i64) -> i64 {
+        let mut population = Population::new(&lines[0]);
+        population.simulate(number_of_days);
+        population.get_total_population()
+    }
+
     #[test]
     fn part1_example_input() {
         let lines = get_lines_from_file(INPUT_EXAMPLE_FILE_PATH);
         let answer_18 = part1_explicit_days(&lines, 18);
-        let answer_80 = part1_explicit_days(&lines, 80);
+        let answer = part1(&lines);
 
         assert_eq!(answer_18, 26);
-        assert_eq!(answer_80, 5934);
+        assert_eq!(answer, 5934);
     }
 
     #[test]
