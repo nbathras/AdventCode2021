@@ -46,13 +46,13 @@ impl Population {
         }
     }
 
-    fn simulate(&mut self, number_of_days: i32) {
+    fn simulate(&mut self, number_of_days: i64) {
         for _ in 0..number_of_days {
             self.simulate_next_day();
         }
     }
 
-    fn get_total_population(&mut self) -> i32{
+    fn get_total_population(&mut self) -> i64{
         let mut total_population = 0;
 
         for entry in &self.entries {
@@ -64,8 +64,8 @@ impl Population {
 }
 
 struct PopulationEntry {
-    current_population: i32,
-    next_population: i32,
+    current_population: i64,
+    next_population: i64,
 }
 
 impl PopulationEntry {
@@ -73,7 +73,7 @@ impl PopulationEntry {
         self.current_population += 1;
     }
 
-    fn add_to_next_population(&mut self, pop: i32) {
+    fn add_to_next_population(&mut self, pop: i64) {
         self.next_population += pop;
     }
 
@@ -83,22 +83,25 @@ impl PopulationEntry {
     }
 }
 
-fn part1_explicit_days(lines: &Vec<String>, number_of_days: i32) -> i32 {
+fn part1_explicit_days(lines: &Vec<String>, number_of_days: i64) -> i64 {
     let mut population = Population::new(&lines[0]);
     population.simulate(number_of_days);
 
     population.get_total_population()
 }
 
-fn part1(lines: &Vec<String>) -> i32 {
+fn part1(lines: &Vec<String>) -> i64 {
     let mut population = Population::new(&lines[0]);
     population.simulate(80);
 
     population.get_total_population()
 }
 
-fn part2(_lines: &Vec<String>) -> i32 {
-    -1
+fn part2(lines: &Vec<String>) -> i64 {
+    let mut population = Population::new(&lines[0]);
+    population.simulate(256);
+
+    population.get_total_population()
 }
 
 fn compute_solutions(lines: Vec<String>) {
@@ -135,7 +138,7 @@ mod tests {
         let lines = get_lines_from_file(INPUT_TEST_FILE_PATH);
         let answer = part1(&lines);
 
-        assert_eq!(answer, 0);
+        assert_eq!(answer, 346063);
     }
 
     #[test]
@@ -143,7 +146,7 @@ mod tests {
         let lines = get_lines_from_file(INPUT_EXAMPLE_FILE_PATH);
         let answer = part2(&lines);
 
-        assert_eq!(answer, answer);
+        assert_eq!(answer, 26984457539);
     }
 
     #[test]
@@ -151,6 +154,6 @@ mod tests {
         let lines = get_lines_from_file(INPUT_TEST_FILE_PATH);
         let answer = part2(&lines);
 
-        assert_eq!(answer, answer);
+        assert_eq!(answer, 1572358335990);
     }
 }
