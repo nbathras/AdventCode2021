@@ -29,7 +29,7 @@ impl Input {
         self.reader.read_line(&mut tmp_line).expect("Could not read line from file!");
         tmp_line
     }
-    
+
     pub fn read_all(&mut self) -> String {
         let mut tmp_text = String::new();
         self.reader.read_to_string(&mut tmp_text).expect("Could not read all lines from file!");

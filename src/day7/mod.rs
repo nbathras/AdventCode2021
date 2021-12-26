@@ -26,8 +26,32 @@ fn part1(file_name: &str) -> i32 {
     min_fuel_cost
 }
 
-fn part2(_file_name: &str) -> i32 {
-    -1
+fn part2(file_name: &str) -> i32 {
+    let mut input = Input::init(file_name);
+    let positions: Vec<i32> = Input::split_and_parse(input.read_line(), ",");
+
+    let max_position: i32 = *positions.iter().max().expect("No max value found in position");
+    println!("Max Target Position: {}", max_position);
+
+    let mut min_fuel_cost = i32::MAX;
+
+    for target_position in 0..max_position+1 {
+        if target_position % 100 == 0 {
+            println!("Processing Target Position {}...", target_position);
+        }
+        let mut fuel_cost = 0;
+
+        for j in 0..positions.len() {
+            let distance = (positions[j] - target_position).abs();
+            fuel_cost += (0..distance+1).sum::<i32>();
+        }
+
+        if fuel_cost < min_fuel_cost {
+            min_fuel_cost = fuel_cost;
+        }
+    }
+
+    min_fuel_cost
 }
 
 pub fn compute_solution() {
@@ -66,13 +90,13 @@ mod tests {
     fn part2_example_input() {
         let answer = part2(INPUT_EXAMPLE_FILE_PATH);
 
-        assert_eq!(answer, answer);
+        assert_eq!(answer, 168);
     }
 
     #[test]
     fn part2_input() {
         let answer = part2(INPUT_TEST_FILE_PATH);
 
-        assert_eq!(answer, answer);
+        assert_eq!(answer, 104822130);
     }
 }
