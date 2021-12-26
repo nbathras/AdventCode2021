@@ -43,7 +43,7 @@ fn part2(file_name: &str) -> i32 {
 
         for j in 0..positions.len() {
             let distance = (positions[j] - target_position).abs();
-            fuel_cost += (0..distance+1).sum::<i32>();
+            fuel_cost += (distance * (distance + 1)) / 2;
         }
 
         if fuel_cost < min_fuel_cost {
